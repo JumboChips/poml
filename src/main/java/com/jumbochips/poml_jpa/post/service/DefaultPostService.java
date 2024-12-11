@@ -12,6 +12,7 @@ import com.jumbochips.poml_jpa.post.repository.TagRepository;
 import com.jumbochips.poml_jpa.user.domain.User;
 import com.jumbochips.poml_jpa.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public PostResponseDto CreatePost(PostRequestDto postRequestDto) {
+    public PostResponseDto createPost(PostRequestDto postRequestDto) {
         User user = userRepository.findById(postRequestDto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("user not found"));
         Category category = categoryRepository.findById(postRequestDto.getCategoryId())
@@ -104,7 +105,8 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public PostResponseDto deletePost(Long postId) {
-        return null;
+    public ResponseEntity<?> deletePost(Long postId) {
+        postRepository.deleteById(postId);
+        return ResponseEntity.ok().build();
     }
 }
