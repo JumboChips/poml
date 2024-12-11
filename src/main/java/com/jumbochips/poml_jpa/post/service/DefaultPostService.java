@@ -80,8 +80,27 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public PostResponseDto updatePost(Long postId, String title, String content) {
-        return null;
+    public PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        Category category = categoryRepository.findById(postRequestDto.getCategoryId())
+                        .orElseThrow(() -> new IllegalArgumentException("category not found"));
+        List<Long> tagIds = postRequestDto.getTagIds();
+        List<Tag> tags = tagRepository.findAllById(tagIds);
+
+        post.updateTitle(postRequestDto.getTitle());
+        post.updateContent(postRequestDto.getContent());
+        post.updateThumbnail(postRequestDto.getThumbnail());
+        post.updateCategory(category);
+        post.updateTags(tags);
+        postRepository.save(post);
+
+        return PostResponseDto.builder()
+                .categoryId(post.getCategory().getId())
+                .thumbnail(post.getThumbnail())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build();
     }
 
     @Override

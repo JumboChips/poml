@@ -11,6 +11,6 @@ public interface PostService {
     List<PostResponseDto> getAllPost(Long userId);
     PostResponseDto getPost(Long postId);
     PostResponseDto CreatePost(PostRequestDto postRequestDto);
-    PostResponseDto updatePost(Long postId, String title, String content);
+    PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto);
     PostResponseDto deletePost(Long postId);
 }

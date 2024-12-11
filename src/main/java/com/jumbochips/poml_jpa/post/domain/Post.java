@@ -34,6 +34,18 @@ public class Post {
     private List<Tag> tags = new ArrayList<>();
 
     // 비즈니스 로직
+    public void updateThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public void updateCategory(Category category) {
+        this.category = category;
+    }
+
+    public void updateTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
     public void updateTitle(String title) {
         this.title = title;
     }
