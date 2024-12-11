@@ -76,7 +76,4 @@ public class PostController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-
-
 }
