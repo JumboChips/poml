@@ -109,4 +109,5 @@ public class DefaultPostService implements PostService {
         postRepository.deleteById(postId);
         return ResponseEntity.ok().build();
     }
+
 }
