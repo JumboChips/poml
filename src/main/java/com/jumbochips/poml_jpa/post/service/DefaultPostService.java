@@ -8,6 +8,7 @@ import com.jumbochips.poml_jpa.post.dto.PostRequestDto;
 import com.jumbochips.poml_jpa.post.dto.PostResponseDto;
 import com.jumbochips.poml_jpa.post.repository.CategoryRepository;
 import com.jumbochips.poml_jpa.post.repository.PostRepository;
+import com.jumbochips.poml_jpa.post.repository.PostTagRepository;
 import com.jumbochips.poml_jpa.post.repository.TagRepository;
 import com.jumbochips.poml_jpa.user.domain.User;
 import com.jumbochips.poml_jpa.user.repository.UserRepository;
@@ -26,17 +27,22 @@ public class DefaultPostService implements PostService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final TagRepository tagRepository;
+    private final PostTagRepository postTagRepository;
 
     @Override
-    public List<PostResponseDto> getAllPost(Long userId) {
-        List<Post> posts = postRepository.findByUserId(userId);
+    public List<PostResponseDto> getAllPost() {
+        List<Post> posts = postRepository.findAll();
 
         return posts.stream()
                 .map(post -> new PostResponseDto(
+                        post.getId(),
                         post.getCategory().getId(),
                         post.getThumbnail(),
                         post.getTitle(),
-                        post.getContent()
+                        post.getContent(),
+                        post.getPostTags().stream()
+                                .map(postTag -> postTag.getTag().getId())
+                                .toList()
                 )).collect(Collectors.toList());
     }
 
@@ -56,10 +62,10 @@ public class DefaultPostService implements PostService {
     public PostResponseDto createPost(PostRequestDto postRequestDto) {
         User user = userRepository.findById(postRequestDto.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("user not found"));
+
         Category category = categoryRepository.findById(postRequestDto.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("category not found"));
-        List<Long> tagIds = postRequestDto.getTagIds();
-        List<Tag> tags = tagRepository.findAllById(tagIds);
+
 
         Post post = Post.builder()
                 .user(user)
@@ -67,16 +73,30 @@ public class DefaultPostService implements PostService {
                 .title(postRequestDto.getTitle())
                 .content(postRequestDto.getContent())
                 .category(category)
-                .tags(tags)
                 .build();
 
         postRepository.save(post);
 
+        List<Long> tagIds = postRequestDto.getTagIds();
+        List<Tag> tags = tagRepository.findAllById(tagIds);
+
+        List<PostTag> postTags = tags.stream()
+                .map(tag -> PostTag.builder()
+                        .post(post)
+                        .tag(tag)
+                        .build()
+                ).toList();
+
+        postTagRepository.saveAll(postTags);
+
+
         return PostResponseDto.builder()
+                .postId(post.getId())
                 .categoryId(post.getCategory().getId())
                 .thumbnail(post.getThumbnail())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .tagIds(tags.stream().map(Tag::getId).collect(Collectors.toList()))
                 .build();
     }
 
@@ -84,19 +104,34 @@ public class DefaultPostService implements PostService {
     public PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post not found"));
+
         Category category = categoryRepository.findById(postRequestDto.getCategoryId())
                         .orElseThrow(() -> new IllegalArgumentException("category not found"));
+
+        // 기존 PostTag 삭제
+        postTagRepository.deleteByPostId(postId);
+
+        // 새로운 태그 추가
         List<Long> tagIds = postRequestDto.getTagIds();
         List<Tag> tags = tagRepository.findAllById(tagIds);
+
+        List<PostTag> newPostTags = tags.stream()
+                .map(tag -> PostTag.builder()
+                        .post(post)
+                        .tag(tag)
+                        .build())
+                .collect(Collectors.toList());
+
+        postTagRepository.saveAll(newPostTags);
 
         post.updateTitle(postRequestDto.getTitle());
         post.updateContent(postRequestDto.getContent());
         post.updateThumbnail(postRequestDto.getThumbnail());
         post.updateCategory(category);
-        post.updateTags(tags);
         postRepository.save(post);
 
         return PostResponseDto.builder()
+                .postId(post.getId())
                 .categoryId(post.getCategory().getId())
                 .thumbnail(post.getThumbnail())
                 .title(post.getTitle())

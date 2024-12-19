@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface PostService {
-    List<PostResponseDto> getAllPost(Long userId);
+    List<PostResponseDto> getAllPost();
     PostResponseDto getPost(Long postId);
     PostResponseDto createPost(PostRequestDto postRequestDto);
     PostResponseDto updatePost(Long postId, PostRequestDto postRequestDto);

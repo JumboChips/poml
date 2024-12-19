@@ -22,10 +22,8 @@ public class DefaultGuestbookService implements GuestBookService {
 
 
     @Override
-    public List<GuestBookResponseDto> getAllGuestBooks(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        return guestBookRepository.findAllByUserId(userId).stream()
+    public List<GuestBookResponseDto> getAllGuestBooks() {
+        return guestBookRepository.findAll().stream()
                 .map(guestBook -> GuestBookResponseDto.builder()
                         .guestBookId(guestBook.getId())
                         .name(guestBook.getVisitorName())
@@ -36,12 +34,8 @@ public class DefaultGuestbookService implements GuestBookService {
     }
 
     @Override
-    public GuestBookResponseDto createGuestbook(Long userId, GuestBookRequestDto guestBookRequestDto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("user not found"));
-
+    public GuestBookResponseDto createGuestbook(GuestBookRequestDto guestBookRequestDto) {
         GuestBook guestBook = GuestBook.builder()
-                .user(user)
                 .isPublic(guestBookRequestDto.getIsPublic())
                 .password(guestBookRequestDto.getPassword())
                 .visitorName(guestBookRequestDto.getName())

@@ -21,11 +21,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -35,12 +36,12 @@ public class Post {
 
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Tag> tags = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PostTag> postTags = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -55,10 +56,6 @@ public class Post {
 
     public void updateCategory(Category category) {
         this.category = category;
-    }
-
-    public void updateTags(List<Tag> tags) {
-        this.tags = tags;
     }
 
     public void updateTitle(String title) {

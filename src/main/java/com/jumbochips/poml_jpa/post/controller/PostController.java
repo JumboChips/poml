@@ -21,7 +21,7 @@ public class PostController {
             @RequestParam Long userId
     ) {
         try {
-            List<PostResponseDto> postResponseDtos = postService.getAllPost(userId);
+            List<PostResponseDto> postResponseDtos = postService.getAllPost();
             return ResponseEntity.ok(postResponseDtos);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

@@ -1,4 +1,4 @@
-package com.jumbochips.poml_jpa.config;
+package com.jumbochips.poml_jpa.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

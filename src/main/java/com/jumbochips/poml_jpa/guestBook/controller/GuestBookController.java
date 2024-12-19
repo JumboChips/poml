@@ -24,8 +24,8 @@ public class GuestBookController {
     ) {
         try {
             Long userId = guestBookRequestDto.getUserId();
-            guestBookService.getAllGuestBooks(userId);
-            return ResponseEntity.ok().body(guestBookService.getAllGuestBooks(userId));
+            guestBookService.getAllGuestBooks();
+            return ResponseEntity.ok().body(guestBookService.getAllGuestBooks());
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
@@ -36,8 +36,7 @@ public class GuestBookController {
             @RequestBody GuestBookRequestDto guestBookRequestDto
     ) {
         try{
-            Long userId = guestBookRequestDto.getUserId();
-            guestBookService.createGuestbook(userId, guestBookRequestDto);
+            guestBookService.createGuestbook(guestBookRequestDto);
             return ResponseEntity.ok().body(new GuestBookResponseDto());
         } catch (Exception e) {
             return ResponseEntity.notFound().build();

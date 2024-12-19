@@ -1,0 +1,31 @@
+# 공통 설정
+server:
+  port: 8080 # 애플리케이션이 실행될 포트 번호
+
+spring:
+  application:
+    name: poml # 애플리케이션 이름
+  datasource:
+    url: jdbc:mysql://localhost:3306/poml?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: 0409
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create # create, update, validate, none 중 선택
+    show-sql: true # SQL 로그를 출력할지 여부
+    properties:
+      hibernate:
+        format_sql: true # SQL 포맷 설정
+
+# 로그 설정
+logging:
+  level:
+    root: info # 기본 로그 레벨
+    org.springframework: info # Spring 관련 로그 레벨
+
+jwt:
+  secret: gnCmhKlNBbPtwvdKNiid-G5GCGaR2UXfnqYK9soSAec=
+
+
+
