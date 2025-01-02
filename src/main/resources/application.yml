@@ -27,5 +27,9 @@ logging:
 jwt:
   secret: gnCmhKlNBbPtwvdKNiid-G5GCGaR2UXfnqYK9soSAec=
 
+image:
+  base-upload-dir: /Users/jumbochips/MyPrj/POML/poml/uploads
+  upload-project-dir: project
+  upload-blog-dir: blog
 
 

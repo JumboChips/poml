@@ -1,7 +1,6 @@
 package com.jumbochips.poml_jpa.comment.domain;
 
-import com.jumbochips.poml_jpa.post.domain.Post;
-import com.jumbochips.poml_jpa.user.domain.User;
+import com.jumbochips.poml_jpa.blog.domain.Blog;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,11 +23,13 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Post post;
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "blog_id")
+    private Blog blog;
 
-    @ManyToOne
-    private User user;
+    private String username;
+
+    private String pwd;
 
     private String content;
 
