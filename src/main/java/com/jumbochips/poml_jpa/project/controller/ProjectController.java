@@ -1,13 +1,16 @@
 package com.jumbochips.poml_jpa.project.controller;
 
+import com.jumbochips.poml_jpa.common.auth.dto.CustomUserDetails;
 import com.jumbochips.poml_jpa.project.domain.Project;
 import com.jumbochips.poml_jpa.project.dto.ProjectRequestDto;
 import com.jumbochips.poml_jpa.project.dto.ProjectResponseDto;
 import com.jumbochips.poml_jpa.project.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -37,8 +40,15 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<ProjectResponseDto> createProject(@RequestBody ProjectRequestDto projectRequestDto) {
+    public ResponseEntity<ProjectResponseDto> createProject(
+            @RequestBody ProjectRequestDto projectRequestDto,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+            ) {
         try {
+            // 인증된 사용자 정보에서 userId 추출
+            Long userId = userDetails.getUserId();
+            projectRequestDto.setUserId(userId);
+
             ProjectResponseDto project = projectService.createProject(projectRequestDto);
             return ResponseEntity.ok(project);
         } catch (Exception e) {

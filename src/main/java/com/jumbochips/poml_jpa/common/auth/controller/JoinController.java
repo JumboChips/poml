@@ -3,12 +3,12 @@ package com.jumbochips.poml_jpa.common.auth.controller;
 import com.jumbochips.poml_jpa.common.auth.dto.JoinDto;
 import com.jumbochips.poml_jpa.common.auth.service.JoinService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@ResponseBody
+@RestController
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class JoinController {
 

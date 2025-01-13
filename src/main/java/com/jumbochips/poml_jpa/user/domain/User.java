@@ -24,7 +24,6 @@ public class User {
 
     private String role;
     private String username;
-    private String email;
     private String password;
     private String github;
     private String phone;
@@ -51,10 +50,6 @@ public class User {
 
     public void updateIntroduction(String introduction) {
         this.introduction = introduction;
-    }
-
-    public void updateEmail(String email) {
-        this.email = email;
     }
 
     public void updatePhone(String phone) {

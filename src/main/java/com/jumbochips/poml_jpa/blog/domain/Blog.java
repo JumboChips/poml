@@ -37,6 +37,7 @@ public class Blog {
 
     private String title;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

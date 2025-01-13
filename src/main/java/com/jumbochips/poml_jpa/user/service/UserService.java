@@ -7,7 +7,6 @@ public interface UserService {
     UserResponseDto getUser(Long userId);
     UserResponseDto updateIntroduction(Long userId, String introduction);
     UserResponseDto updateUsername(Long userId, String newUsername);
-    UserResponseDto updateEmail(Long userId, String newEmail);
     UserResponseDto updatePassword(Long userId, String newPassword);
     UserResponseDto updatePhone(Long userId, String newPhone);
     UserResponseDto updateGithub(Long userId, String newGithub);

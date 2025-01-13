@@ -12,17 +12,23 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create # create, update, validate, none 중 선택
+      ddl-auto: update # create, update, validate, none 중 선택
     show-sql: true # SQL 로그를 출력할지 여부
     properties:
       hibernate:
         format_sql: true # SQL 포맷 설정
 
+# 서버 설정
+cors:
+  allowed-origins: "http://localhost:3000"
+  allowed-methods: "GET, POST, PUT, DELETE, OPTIONS"
+
 # 로그 설정
 logging:
   level:
     root: info # 기본 로그 레벨
-    org.springframework: info # Spring 관련 로그 레벨
+    org.springframework: debug # Spring 관련 로그 레벨
+    security: debug
 
 jwt:
   secret: gnCmhKlNBbPtwvdKNiid-G5GCGaR2UXfnqYK9soSAec=

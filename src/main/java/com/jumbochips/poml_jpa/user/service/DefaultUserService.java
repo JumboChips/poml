@@ -19,7 +19,6 @@ public class DefaultUserService implements UserService{
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         return UserResponseDto.builder()
                 .username(user.getUsername())
-                .email(user.getEmail())
                 .phone(user.getPhone())
                 .password(user.getPassword())
                 .github(user.getGithub())
@@ -36,7 +35,6 @@ public class DefaultUserService implements UserService{
         userRepository.save(user);
         return UserResponseDto.builder()
                 .username(user.getUsername())
-                .email(user.getEmail())
                 .phone(user.getPhone())
                 .password(user.getPassword())
                 .github(user.getGithub())
@@ -53,24 +51,6 @@ public class DefaultUserService implements UserService{
         userRepository.save(user);
         return UserResponseDto.builder()
                 .username(user.getUsername())
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .password(user.getPassword())
-                .github(user.getGithub())
-                .introduction(user.getIntroduction())
-                .profileImage(user.getProfileImage())
-                .build();
-    }
-
-    @Override
-    public UserResponseDto updateEmail(Long userId, String newEmail) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        user.updateEmail(newEmail);
-        userRepository.save(user);
-        return UserResponseDto.builder()
-                .username(user.getUsername())
-                .email(user.getEmail())
                 .phone(user.getPhone())
                 .password(user.getPassword())
                 .github(user.getGithub())
@@ -87,7 +67,6 @@ public class DefaultUserService implements UserService{
         userRepository.save(user);
         return UserResponseDto.builder()
                 .username(user.getUsername())
-                .email(user.getEmail())
                 .phone(user.getPhone())
                 .password(user.getPassword())
                 .github(user.getGithub())
@@ -104,7 +83,6 @@ public class DefaultUserService implements UserService{
         userRepository.save(user);
         return UserResponseDto.builder()
                 .username(user.getUsername())
-                .email(user.getEmail())
                 .phone(user.getPhone())
                 .password(user.getPassword())
                 .github(user.getGithub())
@@ -121,7 +99,6 @@ public class DefaultUserService implements UserService{
         userRepository.save(user);
         return UserResponseDto.builder()
                 .username(user.getUsername())
-                .email(user.getEmail())
                 .phone(user.getPhone())
                 .password(user.getPassword())
                 .github(user.getGithub())
@@ -137,7 +114,6 @@ public class DefaultUserService implements UserService{
         // 이미지 저장 및 파일 변환 로직 필요.
         return UserResponseDto.builder()
                 .username(user.getUsername())
-                .email(user.getEmail())
                 .phone(user.getPhone())
                 .password(user.getPassword())
                 .github(user.getGithub())

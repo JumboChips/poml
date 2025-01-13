@@ -48,8 +48,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String username = jwtUtil.getUsernameFromToken(token);
         String role = jwtUtil.getRoleFromToken(token);
+        Long userId = jwtUtil.getUserIdFromToken(token);
 
         User user = User.builder()
+                .id(userId)
                 .username(username)
                 .password("temppwd")
                 .role(role)
@@ -63,4 +65,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        // /login 경로는 필터링하지 않음
+        return request.getRequestURI().equals("/login");
+    }
+
 }
+

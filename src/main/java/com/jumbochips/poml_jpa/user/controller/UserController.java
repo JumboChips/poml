@@ -4,12 +4,10 @@ import com.jumbochips.poml_jpa.user.dto.UserResponseDto;
 import com.jumbochips.poml_jpa.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -47,19 +45,6 @@ public class UserController {
     ) {
         try {
         UserResponseDto updatedUser = userService.updateUsername(userId, name);
-        return ResponseEntity.ok(updatedUser);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @PutMapping("/email")
-    public ResponseEntity<UserResponseDto> updateEmail(
-            @RequestParam Long userId,
-            @RequestParam String email
-    ) {
-        try {
-        UserResponseDto updatedUser = userService.updateEmail(userId, email);
         return ResponseEntity.ok(updatedUser);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
